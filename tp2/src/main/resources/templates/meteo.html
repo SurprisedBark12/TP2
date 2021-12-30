@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Meteo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div th:insert="~{addresses :: navbar}"></div>
+
+    <p th:text="'Adresse demandee : ' + ${adresseP}"></p>
+    <p th:text="'Adresse trouvee : ' + ${adresseEtalab.getFeatures()[0].getProperties().getLabel()}"></p>
+    <p th:text="'Temperature actuelle : ' + ${instantMeasure.getObservation().getOutside_temperature().getValue()}
+        + ${instantMeasure.getObservation().getOutside_temperature().getUnit()} + ' a la station ' + ${instantMeasure.getStation().getName()}">
+    </p>
+    <br>
+    <p th:text="'Previsions :'"></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Jour</th>
+                    <th>Météo prévue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="i: ${#numbers.sequence(0, 7)}">
+                    <td th:text="${i}"></td>
+                    <td th:text="${WEATHER_CODES.get(dailyForecast[i].getForecast().getWeather())}"></td>
+                </tr>
+            </tbody>
+        </table>
+</body>
+
+</html>
